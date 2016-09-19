@@ -14,19 +14,22 @@ class Words {
     var wordB : String!
     
     init (wordA: String?, wordB: String?) {
+        print(type(of: wordA))
+        print(type(of: wordB))
         self.wordA = wordA
         self.wordB = wordB
+        print(type(of: self.wordA))
     }
 
 //: ### Are the values passed in to the **init** function and those set to the instance
 //: ### variables the same type? If not, why?
 
 
-//: [EXPLAIN YOUR ANSWER HERE]
-
+//: [They are not the same type. Values passed into the function are string optionals. This is because of the question marks. When they are set to the instance variables, which are of type string, the optionals are implicitly unwrapped. type(of: wordA) -> Optional<String> and type(of: self.wordA) -> ImplicitlyUnwrappedOptional<String>]
+ 
 
 //: ## Q2: Variable Types and Function Types
-    func arePalindromes(_ words: [String]) -> Bool {
+    static func arePalindromes(_ words: [String]) -> Bool {
         let reversedWords = words.map() {String($0.characters.reversed())}
         let numElements = words.count
         
@@ -35,20 +38,21 @@ class Words {
                 return false
             }
         }
+        return true
     }
 //: ### Why does the compiler dislike the **for loop**? Fix it.
 //: ### What else is wrong with this function? You may have to refer to (but **not**
 //: ### change) the code at the very bottom. Debug the function.
 
 
-//: [EXPLAIN YOUR ANSWER HERE]
+//: [There needed to be a return for the case in which the words are palidromes (the true case). Additionally, we are using the function as a class method, so we need to add the static keyword in the function signature.]
 
 
 //: ## Q3: More Functions and Object Initialization
-    class func isAnagram() -> Bool {
-        var countLetters : [Character : Int] //Line X
-        var lenA = self.wordA.characters.count
-        var lenB = self.wordB.characters.count
+    func isAnagram() -> Bool {
+        var countLetters = [Character : Int]() //Line X
+        let lenA = self.wordA.characters.count
+        let lenB = self.wordB.characters.count
         
         if lenA != lenB {
             return false
@@ -75,13 +79,13 @@ class Words {
             }
         }
         
-        for (letter, count) in countLetters {
+        for (_, count) in countLetters {
             if count != 0 {
                 return false
             }
         }
         
-        return nil
+        return true
     }
 //: ### What is the problem with declaring **countLetters** as we do in **Line X**,
 //: ### and then using it in **Line Y**? Fix it (by only changing **Line X**).
@@ -89,7 +93,7 @@ class Words {
 //: ### change) the code at the very bottom. Debug the function.
 
 
-//: [EXPLAIN YOUR ANSWER HERE]
+//: [We need to convert it to an instance method. This is done by removing the 'class' keyword. Additionally, instead of returning nil, we should return true. Additionally, the declaration for countLetters needed to be converted to the initializer syntax. Also, based on compiler recommendations, some of the var keywords could be converted to let keywords since the variables were not being mutated. Also, based on compiler reccomendation, we could replace 'letter' with '_' in the for loop since letter is not used within the loop.]
     
     
 }
